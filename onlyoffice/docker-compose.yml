@@ -7,3 +7,10 @@ services:
     environment:
       - JWT_ENABLED=true
       - JWT_SECRET=CAMBIE_ESTE_SECRETO
+    volumes:
+      - onlyoffice_data:/var/www/onlyoffice
+      - onlyoffice_logs:/var/log/onlyoffice
+
+volumes:
+  onlyoffice_data:
+  onlyoffice_logs:
