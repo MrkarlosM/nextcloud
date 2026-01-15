@@ -1,8 +1,8 @@
 services:
   onlyoffice:
-    image: onlyoffice/documentserver:latest
+    image: onlyoffice/documentserver:7.5
+    container_name: onlyoffice
     restart: unless-stopped
-    user: "0:0"
     ports:
       - "127.0.0.1:8081:80"
     environment:
@@ -10,8 +10,12 @@ services:
       - JWT_SECRET=CAMBIE_ESTE_SECRETO
     volumes:
       - onlyoffice_data:/var/www/onlyoffice
+      - onlyoffice_lib:/var/lib/onlyoffice
       - onlyoffice_logs:/var/log/onlyoffice
+      - onlyoffice_cache:/var/cache/onlyoffice
 
 volumes:
   onlyoffice_data:
+  onlyoffice_lib:
   onlyoffice_logs:
+  onlyoffice_cache:
