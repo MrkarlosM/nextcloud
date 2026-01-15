@@ -5,7 +5,7 @@ set -e
 # CONFIGURACIÓN
 # ==============================
 NEXTCLOUD_DOMAIN="cloud.ideaticloud.com"
-COMPOSE_DIR="/opt/nextcloud"
+COMPOSE_DIR="/opt/nextcloud/nextcloud"
 CONTAINER_NAME="nextcloud"
 
 # ==============================
