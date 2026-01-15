@@ -1,0 +1,9 @@
+services:
+  onlyoffice:
+    image: onlyoffice/documentserver:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:80"
+    environment:
+      - JWT_ENABLED=true
+      - JWT_SECRET=CAMBIE_ESTE_SECRETO
