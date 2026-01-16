@@ -1,21 +1,51 @@
 services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: oo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: onlyoffice
+      POSTGRES_USER: onlyoffice
+      POSTGRES_PASSWORD: CAMBIE_ESTA_PASS
+    volumes:
+      - oo_postgres:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    container_name: oo-rabbitmq
+    restart: unless-stopped
+    volumes:
+      - oo_rabbitmq:/var/lib/rabbitmq
+
   onlyoffice:
     image: onlyoffice/documentserver:7.5
     container_name: onlyoffice
     restart: unless-stopped
+    depends_on:
+      - postgres
+      - rabbitmq
     ports:
       - "127.0.0.1:8081:80"
     environment:
-      - JWT_ENABLED=true
-      - JWT_SECRET=CAMBIE_ESTE_SECRETO
+      JWT_ENABLED: "true"
+      JWT_SECRET: "CAMBIE_ESTE_SECRETO_JWT"
+      DB_TYPE: "postgres"
+      DB_HOST: "postgres"
+      DB_PORT: "5432"
+      DB_NAME: "onlyoffice"
+      DB_USER: "onlyoffice"
+      DB_PWD: "CAMBIE_ESTA_PASS"
+      AMQP_URI: "amqp://guest:guest@rabbitmq:5672"
     volumes:
-      - onlyoffice_data:/var/www/onlyoffice
-      - onlyoffice_lib:/var/lib/onlyoffice
-      - onlyoffice_logs:/var/log/onlyoffice
-      - onlyoffice_cache:/var/cache/onlyoffice
+      - oo_logs:/var/log/onlyoffice
+      - oo_data:/var/www/onlyoffice/Data
+      - oo_lib:/var/lib/onlyoffice
+      - oo_cache:/var/cache/onlyoffice
 
 volumes:
-  onlyoffice_data:
-  onlyoffice_lib:
-  onlyoffice_logs:
-  onlyoffice_cache:
+  oo_postgres:
+  oo_rabbitmq:
+  oo_logs:
+  oo_data:
+  oo_lib:
+  oo_cache:
